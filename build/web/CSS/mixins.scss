@@ -1,0 +1,54 @@
+$azul: #549ABD;
+$rojo: #FF6B6B;
+
+$chico: 20px;
+$siete : 700px;
+
+$azulLink : #2294E3; 
+
+@mixin divMixin ($ancho,$alto,$color,$display){
+    width: $ancho;
+    height: $alto;
+    background-color: $color;
+    display: $display;
+}
+@mixin background{
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    background-size: cover;
+
+}
+@mixin back-Parallax{
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    background-size: cover;
+    background-attachment: fixed;
+}
+@mixin noSelec{
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+}
+@function bottom-shadow($depth) {
+  $primary-offset: nth(1.5 3 6 10 15, $depth) * 1px;
+  $blur: nth(1 3 3 5 6, $depth) * 4px;
+  $color: rgba(black, nth(.24 .23 .23 .22 .22, $depth));
+
+  @return 0 $primary-offset $blur $color;
+}
+
+@mixin card($depth) {
+  @if $depth < 1 {
+    box-shadow: none;
+  } @else if $depth > 5 {
+    @warn "Invalid $depth `#{$depth}` for mixin `card`.";
+  } @else {
+    box-shadow: bottom-shadow($depth);  
+  }
+}
+

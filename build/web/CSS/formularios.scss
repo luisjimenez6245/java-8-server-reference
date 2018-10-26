@@ -1,0 +1,537 @@
+#msform{
+    position: relative;
+    align-content: center;
+    @media only screen and (min-width : $chico) {
+        min-width: 200px;
+        @include divMixin(95%, auto, null, table);
+        margin-left: 2%;
+    }
+    @media only screen and (min-width : $siete) {
+        @include divMixin(85%, auto,null, inline-block );
+        position: relative;
+        margin-left: 7.5%;
+    }
+    .barrita{
+        @include noSelec;
+        position:relative;
+        @media only screen and (min-width : $chico) {
+            @include divMixin(95%, auto, null, inline-block);
+            margin-left: 2.25%;
+        }
+        @media only screen and (min-width : $siete) {
+            @include divMixin(90%, auto,null, inline-block );
+            position: relative;
+            margin-left: 3.5%;
+        }
+        counter-reset: step;
+        ul{
+            position: relative;
+            @include divMixin(100%, 100%, null, null);
+            margin: 0px;
+            text-align: center;
+            margin-bottom: 1rem;
+            counter-reset: step;
+            li{
+                @media only screen and (min-width : $chico) {
+                    width: 2.5rem;
+                    width: 25%;
+                    font-size:1rem;
+                    &:before{
+                        width: 2rem;
+                        line-height: 2rem;
+                        font-size: 1.2rem;
+                    }
+                }
+                @media only screen and (min-width : $siete) {
+                    width: 3.5rem;
+                    width: 25%;
+                    font-size:1rem;
+                    &:before{
+                        width: 3rem;
+                        line-height: 3rem;
+                        font-size: 2rem;
+                    }
+                }
+                @include noSelec;
+                list-style-type: none;
+                color: black;
+                text-transform: uppercase;
+                float: left;
+                vertical-align: middle;
+                position: relative;
+                &:before{
+                    content: counter(step);
+                    counter-increment: step;
+                    display: block;
+                    color: white;
+                    background: rgb(230,230,230);
+                    border: 1px whitesmoke;
+                    border-radius: 2rem;
+                    margin: auto;
+                }
+                &:after{
+                    content: '';
+                    @include divMixin(100%, .2rem, null, table );
+                    background-color: rgb(230,230,230);
+                    position: absolute;
+                    left: -50%;
+                    top: 48%;
+                    z-index: -1;
+                }
+                &:first-child:after{
+                    content: none; 
+                }
+            }
+            .active{
+                @media only screen and (min-width : $chico) {
+                    &:after{
+                        min-width: 1.5rem;
+                        line-height: 1.5rem;
+                    }
+                    &:before{
+                        min-width: 1.5rem;
+                        line-height: 1.5rem;
+                    }
+                }
+                @media only screen and (min-width : $siete) {
+                    &:after{
+                        min-width: 3.5rem;
+                        line-height: 3.5rem;
+                    }
+                    &:before{
+                        min-width: 3.5rem;
+                        line-height: 3.5rem;
+                    }
+                }
+                &:after{
+                    background: rgb(190,190,190);
+                }
+                &:before{
+                    color: white;
+                }
+            }
+            .active1{
+                &:before{
+                    background: #FF5353;
+                    box-shadow: 0 0 0 .4rem rgba(222, 84, 84, .7);
+                }
+            }
+            .active2{
+                &:before{
+                    background:#549ABD;
+                    box-shadow: 0 0 0 .4rem rgba(109, 152, 186, .7);
+                }
+            }
+            .active3{
+                &:before{
+                    background: #75D5AB;
+                    box-shadow: 0 0 0 .4rem rgba(151, 212, 172, .7);
+                }
+            }
+            .active4{
+                &:before{
+                    background: #9C7DFD;
+                    box-shadow: 0 0 0 .4rem rgba(147, 124, 249, .7);
+                }
+            }
+        }
+    }
+    #form{
+        margin-top: 0rem;
+        @include divMixin(100%, auto, null, inline-block);
+        position: relative;
+    }
+    fieldset{
+        @include divMixin(100%, auto, null, null);
+        border: 0 none;
+        border-radius: 3px;
+        padding: 20px 30px;
+        box-sizing: border-box;
+        font-size: 1rem;
+        border-radius: 20px;
+        position: relative;
+        .titulo{
+            @include divMixin(100%, auto, null, inline-block);
+            position: relative;
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.3rem;
+            @include noSelec;
+        }
+        .content{
+            @include divMixin(100%,auto, null, inline-block);
+            position: relative;
+            .foto{
+                position: relative;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                @include noSelec;
+                @media only screen and (min-width : $chico) {
+                    @include divMixin(90%, 100%, rgba(240,240,240,0), inline-block);
+                    min-width: 100px;
+                    margin-left: 5%;
+                    min-height: 10rem;
+                    border-radius: 1rem;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                }
+                @media only screen and (min-width : 1200px) {
+                    @include divMixin(40%, 100%, rgba(240,240,240,0), inline-block);
+                    min-width: 100px;
+                    margin-left: 30%;
+                    min-height: 13rem;
+                    border-radius: 1rem;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                }
+                .izquierdo{
+                    @include divMixin(69%, 100%, null, block);
+                    position: absolute;
+                    .abajo{
+                        @include divMixin(90%, auto, null, table);
+                        position: absolute;
+                        font-size: .9rem;
+                        margin-left: 5%;
+                        font-weight: 700;
+                        bottom: 1rem;
+                        #fotoUsu{
+                            font-size: .9rem;
+                            width: 0.1px;
+                            height: 0.1px;
+                            opacity: 0;
+                            overflow: hidden;
+                            position: absolute;
+                            z-index: -1;
+                            &:focus + label{
+                                font-size: .9rem;
+                                bottom: 0px;
+                                outline: 1px dotted #000;
+                                outline: -webkit-focus-ring-color auto 5px;
+                            }
+                        }
+                        #fotoUsu + label{
+                            font-size: .9rem;
+                            color: rgba(0,0,0,.6);
+                            display: inline-block;
+                            cursor: pointer;
+                            &:hover{
+                                color:#2294E3;
+                            }
+                        }
+                    }
+                    .arriba{
+                        @include divMixin(90%, auto, null, table);
+                        position: absolute;
+                        top: .5rem;
+                        margin-top: .2rem;
+                        font-size: 1.1rem;
+                        left: 5%;
+                        color: rgba(0,0,0,.7);
+                        label{
+                            @include divMixin(100%, auto, null, inline-block);
+                            position: relative;
+                            padding-bottom: .4rem;
+                        }
+                        #nom{
+                            font-size: 1.2rem;
+                            font-weight: 500;
+                        }
+                    }
+                    float: left;
+                }
+                .derecha{
+                    @include divMixin(30%, 100%, null, block);
+                    position: relative;
+                    float: right;
+                }
+                .fotito{
+                    @include background;
+                    position: relative;
+                    vertical-align: middle;
+                    @media only screen and (min-width : 20px) {
+                        @include divMixin(5rem, 5rem, rgb(170,170,170), inline-block);
+                        border-radius: 5rem;
+                        margin:1rem;
+                    }
+                    @media only screen and (min-width : 480px) {}
+                    @media only screen and (min-width : $siete) {}
+                    @media only screen and (min-width : 992px) {}
+                    @media only screen and (min-width : 1200px) {
+                        @include divMixin(7rem, 7rem, rgb(170,170,170), inline-block);
+                        border-radius: 10rem;
+                        margin:1rem;
+                    }
+                    @media only screen and (min-width : 1500px) {}
+                }
+                span{
+                    @include divMixin(auto, 4rem, null, inline-block);
+                    position: relative;
+                    margin-top:2rem;
+                    vertical-align: middle;
+                    text-align: center;
+
+                    label{
+
+                    }
+                }
+            }
+            .txt{
+                @include divMixin(70%, 100%, null,inline-block);
+                position: relative;
+                vertical-align: middle;
+                @include noSelec;
+                input{
+
+                }
+            }
+            div{
+                align-items: center;
+                align-content: center;
+                justify-content: center;
+                vertical-align: middle;
+                textArea{
+                    @media only screen and (min-width : $chico) {
+                        @include divMixin(90%, 5rem, null, inline-block);
+                        margin-top: .5rem;
+                        margin-bottom: 0rem;
+                        font-size: 1rem;
+                        margin-left: 5%;
+                    }
+                    @media only screen and (min-width : $siete) {
+                        @include divMixin(80%, 5rem, null, inline-block);
+                        margin-top: .5rem;
+                        margin-bottom: 0rem;
+                        font-size: 1rem;
+                        margin-left: 10%;
+                    }
+                    position: relative;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    resize: none;
+                    border-color: #95989A;
+                    outline: none;
+                }
+                @include noSelec;
+                input[type='text'], input[type=password]{
+                    @media only screen and (min-width : $chico) {
+                        @include divMixin(95%, 1.5rem, null, inline-block);
+                        font-size: 1rem;
+                        padding-top: .5rem;
+                        padding-bottom: .5rem;
+                    }
+                    @media only screen and (min-width : $siete) {
+                        @include divMixin(70%, 1.5rem, null, inline-block);
+                        font-size: 1rem;
+                        padding-top: .5rem;
+                        padding-bottom: .5rem;
+                    }
+                    font-weight: 500;
+                    border: none;
+                    position: relative;
+                    border-bottom: 1px solid black;
+                    color: rgba(0,0,0,.6);
+                    &:focus{
+                        outline: none;
+                        color: rgba(0,0,0,1);
+                    }
+                    &:disabled{
+                        color: rgba(0,0,0,.6);
+                        @include noSelec;
+                    }
+                }
+                label{
+                    font-weight: 600;
+                    @include noSelec;
+                    font-size: 1.2rem;
+                    line-height: 2.0rem;
+                    text-align: left;
+                    position: relative;
+                }
+            }
+            .divChico{
+                @media only screen and (min-width : $chico) {
+                    @include divMixin(50%, auto, null ,inline-block);
+                    padding-top: 1rem;
+                    padding-bottom: 1rem;
+                }
+                @media only screen and (min-width : $siete) {
+                    @include divMixin(25%, auto, null ,inline-block);
+                    padding-top: 1.3rem;
+                    padding-bottom: 1.3rem;
+                }
+                margin-left: 5%;
+                margin-right: 0%;
+                label{
+                    @include divMixin(60%, auto, null, inline-block);
+                }
+            }
+            .containerResultado {
+                margin: none;
+                padding: none;
+                @media only screen and (min-width : $chico) {
+                    @include divMixin(95%, 1.5rem, null, inline-block);                  
+                }
+                @media only screen and (min-width : $siete) {
+                    @include divMixin(70%, 1.5rem, null, inline-block);
+                }
+                input[type='text'], input[type=password]{
+                    @include divMixin(100%, 1.5rem, null, inline-block);
+                }
+                z-index: 20;
+                #resultadosBusqueda{
+                    @include divMixin(100%, 6rem, white, none);
+                    @include card(2);
+                    overflow: hidden;
+                    z-index: 20;
+                    position: relative;
+                }
+                .flex{
+                    @include divMixin(100%, 100%, white, flex);
+                    position: relative;
+                    overflow-y: auto;
+                }
+                #contenedorResultado{
+                    @include divMixin(100%, auto, white, table);
+                    position: relative;
+                    margin-top: 2rem;
+                    padding-bottom:.5rem;
+                    overflow: hidden;
+                }
+            }
+            .resultado{
+                @include divMixin(90%, 1.2rem, null, inline-block);
+                padding-top: .45rem;
+                font-size: .8rem;
+                padding-bottom: .45rem;
+                margin-left: .8rem;
+                white-space: nowrap;
+                color: gray;
+                @include noSelec;
+                &:hover{
+                    color: black;
+                }
+                overflow: hidden;
+                position: relative;
+            }
+            .divAbsoluto{
+                @media only screen and (min-width : $chico) {
+                    @include divMixin(90%, auto, null ,inline-block);
+                    margin-left: 5%;
+                    margin-right: 5%;
+                    padding-top: 1.1rem;
+                    padding-bottom: 1.1rem;
+                }
+                @media only screen and (min-width : $siete) {
+                    @include divMixin(40%, auto, null ,inline-block);
+                    margin-left: 5%;
+                    margin-right: 0%;
+                    padding-top: 1.3rem;
+                    padding-bottom: 1.3rem;
+                }
+                label{
+                    @media only screen and (min-width : $chico) {
+                        @include divMixin(90%, auto, null, inline-block);
+                    }
+                    @media only screen and (min-width : $siete) {
+                        @include divMixin(27%, auto, null, inline-block);
+                    }
+                }
+            }
+            .divLargo{
+                @include divMixin(90%, auto, null ,inline-block);
+                position: relative;
+                margin-left: 5%;
+                margin-right: 5%;
+                padding-top: 1.5rem;
+                @include noSelec;
+                padding-bottom: 1.5rem;
+                label{
+                    @include divMixin(27%, auto, null, inline-block);
+                }
+            }
+            .divBotones{
+                @include divMixin(95%, auto, null ,inline-block);
+                margin-left: 2%;
+                margin-right: 2%;
+                div{
+                    @media only screen and (min-width : $chico) {
+                        @include divMixin(92%, auto, null ,inline-block);
+                        padding-top: 1rem;
+                        padding-bottom: 1rem;
+                        span{
+                            @include divMixin(80%, auto,null, table);
+                            margin-left: 10%;
+                            font-size: 1rem;
+                            line-height: 3rem;
+                        }                 
+                    }
+                    @media only screen and (min-width : $siete) {
+                        @include divMixin(42%, auto, null ,inline-block);
+                        padding-top: 1.2rem;
+                        padding-bottom: 1.2rem;
+                        span{
+                            @include divMixin(50%, auto,null, table);
+                            margin-left: 25%;
+                            font-size: 1.1rem;
+                            line-height: 4rem;
+                        }
+                    }
+                    margin: auto;
+                    align-items: center;
+                    @include noSelec;
+                    span{
+                        position: relative;
+                        text-align: center;
+                        text-transform: capitalize;
+                        font-weight: 700;
+                        color: white;
+                        border-radius: 100rem;
+                        &:hover{
+                            opacity: .7;
+                        }
+                    }
+                }
+                .derecha{
+                    right: 0px;
+                    float: right;
+                }
+                .izquierda{
+                    left: 0px;
+                    float: left;
+                }
+            }
+            .divTexto{
+                @include divMixin(90%, auto, null ,inline-block);
+                margin-left: 5%;
+                position: relative;
+
+                label{
+                    @include divMixin(100%, auto, null, inline-block);
+                    color: black;
+                }
+            }
+            .divCheck{
+                @include divMixin(90%, auto, null ,inline-block);
+                margin-left: 5%;
+                padding-top: .8rem;
+                padding-bottom: .8rem;
+                div{
+                    @media only screen and (min-width : $chico) {
+                        @include divMixin(90%, auto, null, inline-block);
+                    }
+                    @media only screen and (min-width : $siete) {
+                        @include divMixin(32%, auto, null, inline-block);
+                    }
+                    margin: auto;
+                    padding-top: .8rem;
+                    padding-bottom: .8rem;
+                }
+                label{
+                    @include divMixin(90%, auto, null, inline-block);
+                }
+            }
+        }
+        &:not(:first-of-type) {
+            display: none;
+        }
+    }
+}

@@ -1,0 +1,363 @@
+.principalNav{
+    color: white;
+    min-height: 2rem;
+    position: fixed;
+    @media only screen and (min-width: 20px){
+        padding-top: .1rem;
+        min-height: 2.5rem;
+    }
+    @media only screen and (min-width : 768px) {
+        padding-bottom: .5rem;
+        min-height: 2rem;
+    }
+    @include divMixin(100%,auto, null, table);
+    z-index: 1000;
+    @include noSelec;
+    .navIzquierda{
+        .activo{
+            border-bottom: .2rem solid white;
+        }
+    }
+    div{
+        @include divMixin(100%,auto,null, table);
+    }
+}
+.navLogin{
+    min-height: 2rem;
+    position: fixed;
+    @media only screen and (min-width: 20px){
+        padding-top: .1rem;
+        min-height: 2.5rem;
+        color: white;
+        @include divMixin(100%,auto, null, table);
+    }
+    @media only screen and (min-width : 768px) {
+        color: #2e2e2e;
+        padding-bottom: .5rem;
+        min-height: 2rem;
+        min-width: 600px;
+        @include divMixin(48%,auto, null, table);
+    }
+    .navCentro{
+        @media only screen and (min-width : 768px) {
+            font-size: .9rem;
+
+        }
+        @media only screen and (min-width : 992px) {
+            font-size: 1rem;
+            margin-right: 2rem;
+        }
+    }
+    .navIzquierda{
+        @media only screen and (min-width : 0px) {
+            .activo{
+                border-bottom: .2rem solid white;
+            }
+
+        }
+        @media only screen and (min-width : 768px) {
+            .activo{
+                border-bottom: .2rem solid #2e2e2e;
+            }
+        }
+    }
+    z-index: 1000;
+    @include noSelec;
+    div{
+        @include divMixin(100%,auto,null, table);
+    }
+}
+div{
+    .navDerecho{
+        @media only screen and (min-width : 20px) {
+            @include divMixin(auto, 100%, null, table);
+            position : absolute;
+            right: .5rem;
+            .menuBars{
+                letter-spacing: -10px;
+                line-height: 50%;
+                font-weight: 600;
+                text-justify: distribute;
+                text-align: center;
+                padding-top: .4rem;
+                @include divMixin(1rem,1rem, null,table);
+                span{
+                    position: relative;
+                }
+                &:hover{
+                    opacity: .7;
+                }
+            }
+            .divLogo{
+                @include divMixin(0px, 0px, null,none);
+            }
+        }
+        @media only screen and (min-width : 768px) {
+            align-content: center;
+            justify-content: center;
+            font-weight: 500;
+            transition-duration: .4s;
+            transition-timing-function:  cubic-bezier;
+            vertical-align: center;
+            position: absolute;
+            .menuBars{
+                @include divMixin(0px, 0px, null, none);
+            }
+            .divLogo{
+                font-size: 1rem;
+                font-weight: 700;
+                position: relative;
+                text-justify: distribute;
+                text-align: center;
+                @include divMixin(auto,auto, null,table);
+                padding-top: .4rem;
+            }
+        }
+        @media only screen and (min-width : 992px) {
+            @include divMixin(auto,auto,transparent, table);
+            .menuBars{
+                @include divMixin(0px, 0px, null, none);
+            }
+            .divLogo{
+                font-size: 1.2rem;
+                font-weight: 700;
+                position: relative;
+                text-justify: distribute;
+                text-align: center;
+                @include divMixin(auto,auto, null,table);
+                padding-top: .3rem;
+                right: .5rem;
+                z-index: 100000;
+                &:hover{
+                    opacity: .7;
+                }
+            }
+        }
+        @include divMixin(auto,auto,transparent, table);
+    }
+    .navCentro{
+        @include noSelec;
+        @media only screen and (min-width: 0px) {
+            @include divMixin(100%,99%,rgba(50,50,50,1), none);
+            font-size: 1.5rem;
+            font-weight: 400;
+            padding-top:.3rem;
+            top:0;
+            animation : none;
+            transition-duration: .4s;
+            transition-timing-function:  cubic-bezier;
+            z-index:10000;
+            position: fixed;
+            div{
+                @include divMixin(90%,auto,null,table);
+                margin-left: 5%;
+                margin-bottom: 1rem;
+                position: relative;
+                div{
+                    @include divMixin(70%, auto, null, inline-block);
+                    position:relative;
+                    padding-left: .3rem;
+                    padding-right: .3rem;
+                    margin-left: .75rem;
+                    margin-right: .75rem;
+                    margin-bottom: .5em;
+                    opacity:.6;
+                }
+                .activo{
+                    font-weight: 600;
+                    opacity:10;
+                    div{
+                        border-bottom: 2px solid white;
+                    }
+                    transition-duration: .2s;
+                    transition-timing-function:  ease;
+                }
+                .cerrarMenu{
+                    @include divMixin(100%,auto, null, inline-block);
+                    &:hover{
+                        opacity: .9;
+                    }
+                }
+            }
+        }
+        @media only screen and (min-width : 768px) {
+            @include divMixin(100%,100%,rgba(0,0,0,0), flex);
+            align-content: center;
+            justify-content: center;
+            font-size: 1rem;
+            padding-top:.4rem;
+            font-weight: 500;
+            transition-duration: .4s;
+            transition-timing-function:  cubic-bezier;
+            vertical-align: center;
+            position: absolute;
+            div{
+                @include divMixin(auto,100%,null,table);
+                position: relative;
+                div{
+                    @include divMixin(auto, 55%, null, inline-block);
+                    position:relative;
+                    padding-left: .3rem;
+                    padding-right: .3rem;
+                    margin-left: .75rem;
+                    margin-right: .75rem;
+                    opacity:.8;
+                    &:hover{
+                        opacity: 1;
+                    }
+                }
+                .activo{
+                    font-weight: 500;
+                    opacity:1;
+                    font-size: 1rem;
+                    border-bottom: .15rem solid white;
+                    transition-duration: .2s;
+                    transition-timing-function:  ease;
+                }
+                .cerrarMenu{
+                    @include divMixin(0px,0px, null, none);
+                }
+            }
+        }
+        @media only screen and (min-width : 992px) {
+            @include divMixin(100%,auto,rgba(0,0,0,0), flex);
+            font-size: 1.05rem;
+            font-weight: 500;
+            div{
+                @include divMixin(auto,100%,null,table);
+                position: relative;
+                div{
+                    @include divMixin(auto, 80%, null, inline-block);
+                    position:relative;
+                    margin-top: .1em;
+                    opacity:.8;
+                    &:hover{
+                        opacity: 1;
+                    }
+                }
+                .activo{
+                    font-weight: 500;
+                    opacity:1;
+                    font-size: 1.05rem;
+                    border-bottom: .2rem solid white;
+                    transition-duration: .2s;
+                    transition-timing-function:  ease;
+                }
+                .cerrarMenu{
+                    @include divMixin(0px,0px, null, none);
+
+                }
+            }
+        }
+        @media only screen and (min-width : 1200px) {}
+    } 
+
+    .navIzquierda{
+        @include noSelec;
+        @media only screen and (min-width : 20px) {
+            padding-top:.1rem;
+            position: relative;
+            padding-right:0rem;
+            align-content:center;
+            transition-duration: .4s;
+            transition-timing-function:  cubic-bezier;
+            justify-content:center;
+            vertical-align: center;
+            @include divMixin(100%,50%,null, flex);
+        }
+        @media only screen and (min-width : 768px) {}
+        @media only screen and (min-width : 992px) {
+            position: relative;
+            padding-left:1.5rem;
+            align-content: left;
+            justify-content: left;
+            vertical-align: center;
+            @include divMixin(100%,100%,null, flex);
+        }
+        @media only screen and (min-width : 1200px) {}
+        .contenedor{
+            @include noSelec;
+            //@include divMixin(auto, 100%, green, flex);
+            @media only screen and (min-width : 20px) {
+                position: absolute;
+                padding-left: 1rem;
+                vertical-align: center;
+                padding-bottom: 0rem;
+                justify-content: center;
+                font-size: 1rem;
+                line-height: .1rem;
+                left: 0px;
+                @include divMixin(auto, 1.1rem, null, flex);
+            }
+            @media only screen and (min-width : 480px) {}
+            @media only screen and (min-width : 768px) {
+                padding-left: 1rem;
+                font-size: 1rem;
+                line-height: .1rem;
+                @include divMixin(auto, 1.1rem, null, flex);
+            }
+            @media only screen and (min-width : 992px) {
+                //min-width: 50px;
+                position: absolute;
+                top: 0rem;
+                font-size: 1.1rem;
+            }
+            @media only screen and (min-width : 1200px) {}
+            .imagen{
+                position: relative;
+                @include background;
+                @media only screen and (min-width : 20px) {
+                    @include divMixin(0rem, 0rem, null, none);
+                    margin-right: 1rem;
+                    border-radius: 2.1rem;
+                    vertical-align: center;
+                    padding-bottom: 0rem;
+                    justify-content: center;
+                    font-size: 1.1rem;
+                    line-height: .1rem;
+                    right: 0px;
+                    position: relative;
+                }
+                @media only screen and (min-width : 480px) {}
+                @media only screen and (min-width : 768px) {
+                    @include divMixin(2rem, 2rem, null, inline-block);
+                    margin-right: 1rem;
+                    border-radius: 2.1rem;
+                    font-size: 1.2rem;
+                    line-height: .1rem;
+                    position: relative;
+                }
+                @media only screen and (min-width : 992px) {
+                    @include divMixin(2.2rem, 2.2rem, null, table) ;
+                    // min-width: 50px;
+                    border-radius:1.5rem 1.5rem 1.5rem 1.5rem;
+                    position: relative;
+                    vertical-align: center;
+                    justify-content: center;
+                    font-size: 1.1rem;
+                }
+                @media only screen and (min-width : 1200px) {}
+                &:hover{
+                    opacity: .7;
+                }
+            }
+            div{
+                @include divMixin(auto, auto, null, table);
+                margin-top: .95rem;
+                position: relative;
+                z-index: 100000;
+                &:hover{
+                    opacity: .7;
+                }
+            }
+            .activo{
+                font-weight: 600;
+                opacity:10;
+                //font-size: 1.6rem;
+                padding-bottom: .3rem;
+                transition-duration: .2s;
+                transition-timing-function:  ease;
+            }
+        }
+    } 
+}
