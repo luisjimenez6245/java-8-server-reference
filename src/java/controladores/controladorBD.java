@@ -5,77 +5,26 @@
  */
 package controladores;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import javafx.util.Pair;
 
 /**
  *
  * @author luis
  */
-public class controladorBD {
+public class controladorBD extends properties.pMySQL {
 
-    private String usrBD = "root";
-    private String passBD = "";
-    private String urlBD = "jdbc:mysql://127.0.0.1:3306/?allowPublicKeyRetrieval=true&useSSL=false";
-    private String driverClassName = "com.mysql.jdbc.Driver";;
-    private Connection conn = null;
-    private Statement estancia;
-
-    public controladorBD(String usuarioBD, String passwordBD, String url, String driverClassName) {
-        this.usrBD = usuarioBD;
-        this.passBD = passwordBD;
-        this.urlBD = url;
-        this.driverClassName = driverClassName;
-    }
-
-    public controladorBD(String url) {
-        this.urlBD = url;
-    }
-    
-    public controladorBD() {
-    }
-
-    //metodos para establecer los valores de conexion a la BD
-    public void setUsuarioBD(String usuario) throws SQLException {
-        this.usrBD = usuario;
-    }
-
-    public void setPassBD(String pass) {
-        this.passBD = pass;
-    }
-
-    public void setUrlBD(String url) {
-        this.urlBD = url;
-    }
-
-    public void setConn(Connection conn) {
-        this.conn = conn;
-    }
-
-    public void setDriverClassName(String driverClassName) {
-        this.driverClassName = driverClassName;
-    }
-
-    //Conexion a la BD
-    public void conectar() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        Class.forName(this.driverClassName).newInstance();
-        this.conn = DriverManager.getConnection(this.urlBD, this.usrBD, this.passBD);
-    }
-
-    //Cerrar la conexion de BD
-    public void cierraConexion() throws SQLException {
-        this.conn.close();
-    }
-    
-    
-
-    //Metodos para ejecutar sentencias SQL
-    public PreparedStatement getStatement(String sentencia) throws SQLException {
-        return this.conn.prepareStatement(sentencia);
+    public ResultSet preparedS(String consulta, String[] parametros) throws SQLException {
+        state = this.conn.prepareStatement(consulta);
+        for (int i = 1; i < parametros.length + 1; i++) {
+            state.setString(i, parametros[i - 1]);
+        }
+        res = state.executeQuery();
+        return res;
     }
 
     public PreparedStatement getCall(String sentencia) throws SQLException {
@@ -89,14 +38,39 @@ public class controladorBD {
     public void sinRes(PreparedStatement consulta) throws SQLException {
         consulta.executeQuery();
     }
-    public ResultSet consulta(String consulta) throws SQLException {
-        this.estancia = (Statement) conn.createStatement();
-        return this.estancia.executeQuery(consulta);
+
+    public ResultSet consulta(String consulta, ArrayList<Pair<String, String>> parametros) throws SQLException {
+        if (parametros != null) {
+            String valores = "where true = true";
+            valores = parametros.stream().map((param) -> "and " + param.getKey() + " = ?").reduce(valores, String::concat);
+            consulta += valores + ";";
+        }
+
+        state = this.conn.prepareStatement(consulta);
+        if (parametros != null) {
+            for (int i = 1; i <= parametros.size(); i++) {
+                state.setString(i, parametros.get(i - 1).getValue());
+            }
+        }
+        Statement estancia;
+        estancia = (Statement) conn.createStatement();
+        
+        return estancia.executeQuery(consulta);
+        //res = state.executeQuery();
+        //return res;
     }
 
-    public void actualizar(String actualiza) throws SQLException {
-        this.estancia = (Statement) conn.createStatement();
-        estancia.executeUpdate(actualiza);
+    public void actualizar(String actualiza, Pair<String, String>[] parametros) throws SQLException {
+        String valores = "";
+        for (Pair<String, String> param : parametros) {
+            valores += param.getKey() + " = ?";
+        }
+        actualiza = actualiza.replace("?val", valores);
+        state = this.conn.prepareStatement(actualiza);
+        for (int i = 1; i <= parametros.length; ++i) {
+            state.setString(i, parametros[i - 1].getValue());
+        }
+        state.execute();
     }
 
     public void borrar(String borra) throws SQLException {

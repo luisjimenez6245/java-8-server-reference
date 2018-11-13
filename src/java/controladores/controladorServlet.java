@@ -5,109 +5,55 @@
  */
 package controladores;
 
-import com.google.gson.Gson;
-import extras.logger;
+import controladores.seguridad.logger;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import objetos.contenedorAjax;
-import objetos.objetoVentana;
-import objetos.usuario;
 
 /**
  *
  * @author luis
  */
+@MultipartConfig(maxFileSize = 16177215)
 public class controladorServlet extends HttpServlet {
 
     protected String direccion;
     protected String respuesta;
-
-    protected HttpServletRequest request;
-    protected HttpServletResponse response;
-    protected HttpSession session;
-
     protected String pagina;
-    protected String js = "";
 
-    protected short tipoRequest;
     protected short posicionServidor = 0;
+    protected int resStatus = 0;
 
-    protected boolean tipoContenido;
-    protected controladorBD base;
-    protected usuario _usuario;
-    protected Gson json = new Gson();
-
-    protected logger errores = new logger();
-    protected int idVentana = 0;
-    
+    protected final logger ERRORES = new logger();
 
     public controladorServlet() {
-        base = new controladorBD();
-        _usuario = new usuario();
+
     }
 
-    protected void processRequest() throws ServletException, IOException {
-        idVentana = 0;
+    private void envia(HttpServletResponse response) throws IOException, ServletException {
         response.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        String dispositivo = request.getHeader("movil") == null ? "0" : request.getHeader("movil");
-        tipoContenido = dispositivo.equals("0");
-
-        if (tipoContenido) {
-            session = request.getSession(true);
-            obtenDireccion(request.getRequestURI());
-            response.setContentType("text/html;charset=UTF-8");
-
-            if (calculaContenido()) {
-            } else {
-                // response.setContentType("application/json;charset=UTF-8");
-            }
-            respuesta = web();
-        } else {
-            respuesta = movil();
-        }
-        System.out.println(idVentana);
-        try (PrintWriter out = response.getWriter()) {
-            if (response.getStatus() >= 200 && response.getStatus() <= 204) {
+        response.setContentType("application/json;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        resStatus = resStatus != 0 ? resStatus : respuesta.equals("") ? 400 : 0;
+        if (respuesta != null && resStatus == 0) {
+            if (!respuesta.equals("null")) {
                 out.print(respuesta);
             } else {
-                out.print("Sin Accceso" + response.getStatus());
+                response.sendError(400);
             }
-        } catch (Exception ex) {
-            errores.error(ex);
-        }
-
-        this.destroy();
-
-    }
-
-    private boolean calculaContenido() {
-        System.out.println(pagina);
-        if (!(request.getParameter("pagina") == null)) {
-            tipoContenido = true;
-            pagina = request.getParameter("pagina") == null ? "" : request.getParameter("pagina");
-            return false;
         } else {
-            tipoContenido = false;
-            return true;
+            response.sendError(resStatus);
         }
-    }
-
-    protected String movil() {
-        // considera la utilizacion de webservice como el método principal
-        return "";
-    }
-
-    protected String web() {
-        return "";
+        this.destroy();
     }
 
     private boolean obtenDireccion(String url) {
+        respuesta = "";
+        resStatus = 0;
         if (url.startsWith("/")) {
             url = url.substring(1, url.length());
         }
@@ -124,63 +70,23 @@ public class controladorServlet extends HttpServlet {
             } else {
                 pagina = "";
             }
-            if (contenedor.length == posicionServidor) {
-            } else {
-            }
             creaDireccion();
             pagina = pagina == null ? "" : pagina;
+            pagina = pagina.replace(this.getServletName(), "");
             return true;
         } catch (Exception ex) {
-            errores.error(ex);
+            ERRORES.error(ex);
             return false;
         }
     }
 
     private void creaDireccion() {
-
         int contador = 2;
         direccion = "";
         while (contador <= posicionServidor) {
             direccion += "../";
             ++contador;
         }
-    }
-
-    protected String contendioWEB(objetoVentana control, int status) {
-        control.html = true;
-        if (tipoContenido) {
-            contenedorAjax ajax = new contenedorAjax();
-            ajax.setContenido(control.crearWEB());
-            ajax.setJs(control.JS() + js);
-            ajax.setAlertas("");
-            ajax.setOculto("");
-            return json.toJson(ajax);
-        } else {
-            controladorNavBar nav = new controladorNavBar();
-            controladorContenido contenido = new controladorContenido();
-            contenido.setContenido(control.crearWEB());
-            contenido.setNav(nav.costruye(true, 1, (int) _usuario.getIdUsuario(), (int) _usuario.getIdPersona(), idVentana, pagina, status));
-            contenido.setNoJS("");
-            contenido.setOculto("");
-            contenido.setTitulo("MEDICALL");
-            contenido.setScripts(javaScript());
-            contenido.setScriptsFinal(js);
-            contenido.setCss("<link rel='stylesheet' type='text/css' href='" + direccion + "CSS/general.css'>\n");
-            return contenido.crear();
-        }
-    }
-
-    protected String javaScript() {
-        String resultado =  "<script src = '/direccion/JS/jQuery.js'></script>\n"
-                + "<script src = '/direccion/JS/jquery.waypoints.min.js'></script>\n"
-                + "<script src = '/direccion/JS/jquery.scrollify.js'></script>\n"
-                + "<script src = '/direccion/JS/flowtype.js'></script>\n"
-                + "<script src = '/direccion/JS/main.js'></script>\n"
-                + "<script> \n paginaMostrada = " + idVentana + "; \n</script> \n";
-
-
-        return         resultado.replace("/direccion/", direccion);
-
     }
 
     private short calculaDiagonal(String url) {
@@ -206,12 +112,14 @@ public class controladorServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            this.request = request;
-            this.response = response;
-            processRequest();
-        } catch (IOException | ServletException ex) {
-            System.out.println("Error doGet: " + ex.toString());
+            request.setCharacterEncoding("UTF-8");
+            obtenDireccion(request.getRequestURI());
+            get(request, response);
+        } catch (Exception ex) {
+            resStatus = 400;
+            ERRORES.error(ex);
         }
+        envia(response);
     }
 
     /**
@@ -226,13 +134,58 @@ public class controladorServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            this.request = request;
-            this.response = response;
-
-            processRequest();
-        } catch (IOException | ServletException ex) {
-            System.out.println("Error doPost: " + ex.toString());
+            request.setCharacterEncoding("UTF-8");
+            obtenDireccion(request.getRequestURI());
+            post(request, response);
+        } catch (Exception ex) {
+            resStatus = 400;
+            ERRORES.error(ex);
         }
+        envia(response);
+    }
+
+    /**
+     * Handles the HTTP <code>PUT</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            request.setCharacterEncoding("UTF-8");
+            obtenDireccion(request.getRequestURI());
+            put(request, response);
+        } catch (Exception ex) {
+            resStatus = 400;
+            ERRORES.error(ex);
+        }
+        envia(response);
+    }
+
+    /**
+     * Handles the HTTP <code>Delete</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            request.setCharacterEncoding("UTF-8");
+            obtenDireccion(request.getRequestURI());
+            delete(request, response);
+        } catch (Exception ex) {
+            resStatus = 400;
+            ERRORES.error(ex);
+        }
+        envia(response);
     }
 
     /**
@@ -245,5 +198,21 @@ public class controladorServlet extends HttpServlet {
         return "Short description";
     }
     // </editor-fold>
+
+    protected void get(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    protected void post(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    protected void put(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    protected void delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

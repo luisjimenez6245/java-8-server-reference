@@ -5,12 +5,15 @@
  */
 package servlets;
 
+import controladores.interfaz.*;
+import controladores.seguridad.acceso;
 import javax.servlet.annotation.WebServlet;
-import objetos.objetoVentana;
-import org.owasp.esapi.ESAPI;
-import ventanas.inicio.ventanaInicio;
-import ventanas.inicio.ventanaLogin;
-import ventanas.inicio.ventanaSoyMedico;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import objetos.dispositivo;
+import objetos.nav;
+import objetos.usuario;
+
 /**
  *
  * @author luis
@@ -19,32 +22,49 @@ import ventanas.inicio.ventanaSoyMedico;
 public class index extends controladores.controladorServlet {
 
     @Override
-    protected String web() {
-        String resultado = contendioWEB(calcula(), 2);
-        return resultado;
-    }
-
-    private objetoVentana calcula() {
-        objetoVentana control;
-        Object ventana;
-        js= "";
-        if (pagina.contains("soyMedico") || pagina.equals("11")) {
-            idVentana = 11;
-            ventana = new ventanaSoyMedico(tipoContenido, direccion);
-        } else if (pagina.contains("login") || pagina.equals("13")) {
-            idVentana = 13;
-            js = ESAPI.encoder().encodeForHTML("<script>\n"
-                    + "$('#principalNav').removeClass('principalNav');\n"
-                    + "$('#principalNav').addClass('navLogin');\n"
-                    + "</script>\n");
-            ventana = new ventanaLogin(tipoContenido, direccion);
+    public void get(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        controladorNavegacion control = new controladorNavegacion();
+        if (request.getParameter("id_catalogo") == null) {
+            if (!pagina.equals("") && request.getParameter("id_nav") == null) {
+                respuesta = control.verficaPermiso(new nav(0L, direccion, pagina, "", 0, 0), request.getParameter("id_usuario") == null ? null : new usuario().parse(request));
+            } else {
+                if (request.getParameter("id_nav") == null) {
+                    respuesta = control.traeAutorizados(request.getParameter("id_usuario") == null ? null : new usuario().parse(request));
+                } else {
+                    respuesta = control.verficaPermiso(new nav().parse(request), request.getParameter("id_usuario") == null ? null : new usuario().parse(request));
+                }
+            }
         } else {
-            idVentana = 10;
-            ventana = new ventanaInicio(tipoContenido, direccion);
+            respuesta = control.traeAntecedentes();
         }
 
-        control = (objetoVentana) ventana;
-        return control;
+    }
+
+    @Override
+    public void post(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        acceso acc = new acceso();
+        if (request.getParameter("dispositivo_token") != null) {
+            respuesta = acc.porDispositivo(new dispositivo().parse(request), request.getParameter("token"), request.getRemoteHost());
+        } else {
+            if (request.getParameter("acc") != null) {
+                respuesta = acc.porUsuario(new usuario().parse(request), request.getParameter("token"), request.getRemoteHost());
+            } else {
+                if (request.getParameter("id_usuario") != null) {
+                    respuesta = acc.porUsuario(new usuario().parse(request), request.getParameter("token"), request.getRemoteHost());
+                }
+            }
+        }
+        resStatus = respuesta.equals("") ? 403 : 0;
+    }
+
+    @Override
+    public void put(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+    }
+
+    @Override
+    public void delete(HttpServletRequest request, HttpServletResponse response) {
+
     }
 
 }

@@ -5,10 +5,15 @@
  */
 package objetos;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+
 /**
  *
  * @author luis
  */
-public class servicio {
-    
+abstract class mapper<T> {
+
 }

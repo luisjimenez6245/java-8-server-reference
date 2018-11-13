@@ -9,6 +9,6 @@ package objetos;
  *
  * @author luis
  */
-public class servicio {
+public class especialista {
     
 }

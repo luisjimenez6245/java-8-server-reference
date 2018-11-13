@@ -5,6 +5,7 @@
  */
 package extras;
 
+import controladores.seguridad.logger;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -31,9 +32,9 @@ public class enviarEmail {
     private String para;
     private String asunto;
 
-    private final String MAILER = "";
-    private final String PSW = "";
-    private final String SERVER = "smtpout..net";
+    private final String MAILER = "administrador@luisjimenez6245.mx";
+    private final String PSW = "Siul6245.";
+    private final String SERVER = "smtpout.secureserver.net";
     private final int PUERTO = 80;
 
     private final logger errores = new logger();
