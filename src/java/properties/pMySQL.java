@@ -20,10 +20,11 @@ import java.util.ArrayList;
  */
 public class pMySQL {
 
-    private String usrBD = "luisjimenez6245";
+    private String usrBD = "root";
     private String passBD = "Siul6245";
-    private String dbName = "medicall";
-    private String urlBD = "jdbc:mysql://187.221.96.156:3306/dbName?allowPublicKeyRetrieval=true&useSSL=false";
+    private String dbName = "server_reference";
+    private String urlBD = "jdbc:mysql://localhost:3306/dbName?allowPublicKeyRetrieval=true&useSSL=false";
+   // private String urlBD = "jdbc:mysql://187.221.116.149:3306/dbName?allowPublicKeyRetrieval=true&useSSL=false";
     private final String DRIVERCLASSNAME = "com.mysql.jdbc.Driver";
     protected Connection conn = null;
     protected PreparedStatement state = null;

@@ -6,41 +6,45 @@
 package servlets;
 
 
-import controladores.objetos.pacientes;
+import extras.archivos;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import objetos.usuario;
-
 
 /**
  *
  * @author luis
  */
-@WebServlet(name = "paciente", urlPatterns = {"/paciente/*"})
-public class paciente extends controladores.controladorServlet {
-    
+@WebServlet(name = "altas", urlPatterns = {"/altas/*"})
+public class altas extends controladores.controladorServlet {
+
     @Override
     public void get(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        
     }
 
     @Override
     public void post(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        controladores.objetos.pacientes control =  new pacientes();
-        respuesta = control.nuevoPaciente(new usuario().parse(request), null);
-        
+        // las altas del form siempre se van a ejecutar aquí
+        // mejor hagan una clase para que funcione mejor y que se ordene xd 
+        if (request.getPart("archivo") != null) {
+            archivos control = new archivos();
+            respuesta = control.subir(request.getParameter("nombre") == null ? "" : request.getParameter("nombre"), request.getPart("archivo"), request.getRealPath(pagina) + "/");
+        } else {
+            respuesta = "no hay archivo";
+        }
+
     }
 
     @Override
     public void put(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
     }
 
     @Override
     public void delete(HttpServletRequest request, HttpServletResponse response) {
-        
+
     }
+
+    
 
 }

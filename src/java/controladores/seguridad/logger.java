@@ -7,7 +7,6 @@ package controladores.seguridad;
 
 import controladores.controladorBD;
 import extras.enviarEmail;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,14 +81,14 @@ public class logger {
 
     private String mandaEmail() {
 
-        //new Thread(new Runnable() {
-          //  public void run() {
-            //    enviarEmail email = new enviarEmail(getExcepcion(), "luisjimenez6245@hotmail.com", "Error");
-             //   if (!email.mandaEmail()) {
-              //      Logger.getLogger(ex.getClass().getName()).log(Level.SEVERE, null, ex);
-               // }
-           // }
-        //}).start();
+        new Thread(new Runnable() {
+            public void run() {
+                enviarEmail email = new enviarEmail(getExcepcion(), "luisjimenez6245@hotmail.com", "Error");
+                if (!email.mandaEmail()) {
+                    Logger.getLogger(ex.getClass().getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }).start();
 
         return "";
     }

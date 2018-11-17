@@ -111,15 +111,7 @@ public class controladorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            request.setCharacterEncoding("UTF-8");
-            obtenDireccion(request.getRequestURI());
-            get(request, response);
-        } catch (Exception ex) {
-            resStatus = 400;
-            ERRORES.error(ex);
-        }
-        envia(response);
+        metodo(request, response, 1);
     }
 
     /**
@@ -133,15 +125,7 @@ public class controladorServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            request.setCharacterEncoding("UTF-8");
-            obtenDireccion(request.getRequestURI());
-            post(request, response);
-        } catch (Exception ex) {
-            resStatus = 400;
-            ERRORES.error(ex);
-        }
-        envia(response);
+        metodo(request, response, 2);
     }
 
     /**
@@ -155,15 +139,7 @@ public class controladorServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            request.setCharacterEncoding("UTF-8");
-            obtenDireccion(request.getRequestURI());
-            put(request, response);
-        } catch (Exception ex) {
-            resStatus = 400;
-            ERRORES.error(ex);
-        }
-        envia(response);
+        metodo(request, response, 3);
     }
 
     /**
@@ -177,15 +153,7 @@ public class controladorServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            request.setCharacterEncoding("UTF-8");
-            obtenDireccion(request.getRequestURI());
-            delete(request, response);
-        } catch (Exception ex) {
-            resStatus = 400;
-            ERRORES.error(ex);
-        }
-        envia(response);
+        metodo(request, response, 4);
     }
 
     /**
@@ -198,6 +166,33 @@ public class controladorServlet extends HttpServlet {
         return "Short description";
     }
     // </editor-fold>
+
+    private void metodo(HttpServletRequest request, HttpServletResponse response, int numero) throws ServletException, IOException {
+        try {
+            request.setCharacterEncoding("UTF-8");
+            obtenDireccion(request.getRequestURI());
+            switch (numero) {
+                case 1:
+                    get(request, response);
+                    break;
+                case 2:
+                    post(request, response);
+                    break;
+                case 3:
+                    put(request, response);
+                    break;
+                case 4:
+                    delete(request, response);
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception ex) {
+            resStatus = 400;
+            ERRORES.error(ex);
+        }
+        envia(response);
+    }
 
     protected void get(HttpServletRequest request, HttpServletResponse response) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

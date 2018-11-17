@@ -56,8 +56,6 @@ public class controladorBD extends properties.pMySQL {
         estancia = (Statement) conn.createStatement();
         
         return estancia.executeQuery(consulta);
-        //res = state.executeQuery();
-        //return res;
     }
 
     public void actualizar(String actualiza, Pair<String, String>[] parametros) throws SQLException {
