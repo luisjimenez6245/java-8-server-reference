@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author luis
  */
 @MultipartConfig(maxFileSize = 16177215)
-public class controladorServlet extends HttpServlet {
+public abstract class controladorServlet extends HttpServlet {
 
     protected String direccion;
     protected String respuesta;
@@ -34,7 +34,7 @@ public class controladorServlet extends HttpServlet {
 
     }
 
-    private void envia(HttpServletResponse response) throws IOException, ServletException {
+    protected void envia(HttpServletResponse response) throws IOException, ServletException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -194,20 +194,12 @@ public class controladorServlet extends HttpServlet {
         envia(response);
     }
 
-    protected void get(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    protected abstract void get(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-    protected void post(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    protected abstract void post(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-    protected void put(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    protected abstract void put(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-    protected void delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    protected abstract void delete(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 }
