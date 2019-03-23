@@ -6,7 +6,7 @@
 package servlets;
 
 
-import extras.archivos;
+import extras.files;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author luis
  */
 @WebServlet(name = "altas", urlPatterns = {"/altas/*"})
-public class altas extends controladores.controladorServlet {
+public class altas extends controllers.controllerServlet {
 
     @Override
     public void get(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -27,10 +27,10 @@ public class altas extends controladores.controladorServlet {
         // las altas del form siempre se van a ejecutar aquí
         // mejor hagan una clase para que funcione mejor y que se ordene xd 
         if (request.getPart("archivo") != null) {
-            archivos control = new archivos();
-            respuesta = control.subir(request.getParameter("nombre") == null ? "" : request.getParameter("nombre"), request.getPart("archivo"), request.getRealPath(pagina) + "/");
+            files control = new files();
+            result = control.subir(request.getParameter("nombre") == null ? "" : request.getParameter("nombre"), request.getPart("archivo"), request.getRealPath(page) + "/");
         } else {
-            respuesta = "no hay archivo";
+            result = "no hay archivo";
         }
 
     }

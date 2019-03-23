@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controladores;
+package controllers;
 
-import controladores.seguridad.logger;
+import controllers.security.logger;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -19,18 +19,18 @@ import javax.servlet.http.HttpServletResponse;
  * @author luis
  */
 @MultipartConfig(maxFileSize = 16177215)
-public abstract class controladorServlet extends HttpServlet {
+public abstract class controllerServlet extends HttpServlet {
 
-    protected String direccion;
-    protected String respuesta;
-    protected String pagina;
+    protected String url;
+    protected String result;
+    protected String page;
 
-    protected short posicionServidor = 0;
+    protected short slashNumbers = 0;
     protected int resStatus = 0;
 
     protected final logger ERRORES = new logger();
 
-    public controladorServlet() {
+    public controllerServlet() {
 
     }
 
@@ -38,10 +38,10 @@ public abstract class controladorServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        resStatus = resStatus != 0 ? resStatus : respuesta.equals("") ? 400 : 0;
-        if (respuesta != null && resStatus == 0) {
-            if (!respuesta.equals("null")) {
-                out.print(respuesta);
+        resStatus = resStatus != 0 ? resStatus : result.equals("") ? 400 : 0;
+        if (result != null && resStatus == 0) {
+            if (!result.equals("null")) {
+                out.print(result);
             } else {
                 response.sendError(400);
             }
@@ -52,27 +52,27 @@ public abstract class controladorServlet extends HttpServlet {
     }
 
     private boolean obtenDireccion(String url) {
-        respuesta = "";
+        result = "";
         resStatus = 0;
         if (url.startsWith("/")) {
             url = url.substring(1, url.length());
         }
         try {
             String[] contenedor = url.split("/");
-            posicionServidor = calculaDiagonal(url);
+            slashNumbers = getDiagonal(url);
             if (contenedor.length - 1 > 0) {
                 if (contenedor.length - 1 > 1) {
-                    pagina = contenedor[2];
+                    page = contenedor[2];
                 } else {
-                    pagina = contenedor[1];
+                    page = contenedor[1];
                 }
 
             } else {
-                pagina = "";
+                page = "";
             }
             creaDireccion();
-            pagina = pagina == null ? "" : pagina;
-            pagina = pagina.replace(this.getServletName(), "");
+            page = page == null ? "" : page;
+            page = page.replace(this.getServletName(), "");
             return true;
         } catch (Exception ex) {
             ERRORES.error(ex);
@@ -82,14 +82,14 @@ public abstract class controladorServlet extends HttpServlet {
 
     private void creaDireccion() {
         int contador = 2;
-        direccion = "";
-        while (contador <= posicionServidor) {
-            direccion += "../";
+        url = "";
+        while (contador <= slashNumbers) {
+            url += "../";
             ++contador;
         }
     }
 
-    private short calculaDiagonal(String url) {
+    private short getDiagonal(String url) {
         short resultado = 0;
         for (char _a : url.toCharArray()) {
             if (_a == '/') {
@@ -111,7 +111,7 @@ public abstract class controladorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        metodo(request, response, 1);
+        selector(request, response, 1);
     }
 
     /**
@@ -125,7 +125,7 @@ public abstract class controladorServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        metodo(request, response, 2);
+        selector(request, response, 2);
     }
 
     /**
@@ -139,7 +139,7 @@ public abstract class controladorServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        metodo(request, response, 3);
+        selector(request, response, 3);
     }
 
     /**
@@ -153,7 +153,7 @@ public abstract class controladorServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        metodo(request, response, 4);
+        selector(request, response, 4);
     }
 
     /**
@@ -167,7 +167,7 @@ public abstract class controladorServlet extends HttpServlet {
     }
     // </editor-fold>
 
-    private void metodo(HttpServletRequest request, HttpServletResponse response, int numero) throws ServletException, IOException {
+    private void selector(HttpServletRequest request, HttpServletResponse response, int numero) throws ServletException, IOException {
         try {
             request.setCharacterEncoding("UTF-8");
             obtenDireccion(request.getRequestURI());

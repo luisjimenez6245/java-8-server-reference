@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package extras;
+package controllers.securtity.extras;
 
 /**
  *
@@ -11,64 +11,64 @@ package extras;
  */
 public class convertidorTexto {
 
-    private String resultado;
+    private String res;
 
     public String aBinario(String aConvetir) {
-        resultado = "";
+        res = "";
         for (char caracter : aConvetir.toCharArray()) {
             String numero = ("00000000" + Integer.toBinaryString((int) caracter));
-            resultado += numero.substring(numero.length() - 8, numero.length());
+            res += numero.substring(numero.length() - 8, numero.length());
         }
-        return resultado;
+        return res;
     }
     
     public String binarioHexadecimal(){
         
-        resultado = "";
-        return resultado;
+        res = "";
+        return res;
     }
 
     public String aHexadecimal(String aConvetir) {
-        resultado = "";
+        res = "";
         for (char caracter : aConvetir.toCharArray()) {
-            resultado += ("" + Integer.toHexString((int) caracter));
+            res += ("" + Integer.toHexString((int) caracter));
         }
-        return resultado;
+        return res;
     }
 
     public String aOctal(String aConvetir) {
-        resultado = "";
+        res = "";
         for (char caracter : aConvetir.toCharArray()) {
-            resultado += ("" + Integer.toOctalString((int) caracter));
+            res += ("" + Integer.toOctalString((int) caracter));
         }
-        return resultado;
+        return res;
     }
 
     public String enteroBinario(int numero) {
-        resultado = Integer.toBinaryString(numero);
-        resultado = "00000000000000000000000000000000000000" + resultado;
-        resultado = resultado.substring(resultado.length() - 32, resultado.length());
-        return resultado;
+        res = Integer.toBinaryString(numero);
+        res = "00000000000000000000000000000000000000" + res;
+        res = res.substring(res.length() - 32, res.length());
+        return res;
     }
 
     public String enteroOctal(int numero) {
-        resultado = Integer.toOctalString(numero);
-        return resultado;
+        res = Integer.toOctalString(numero);
+        return res;
     }
 
     public String enteroHexadecimal(int numero) {
-        resultado = Integer.toHexString(numero);
-        return resultado;
+        res = Integer.toHexString(numero);
+        return res;
     }
 
     public String binarioCadena(String binario) {
-        resultado = "";
+        res = "";
         binario = rellenaCeros(binario, 8);
         for (int i = 0; i < (binario.length() / 8); ++i) {
             int a = Integer.parseInt(binario.substring(8 * i, (i + 1) * 8), 2);
-            resultado += Character.toString((char) (a));
+            res += Character.toString((char) (a));
         }
-        return resultado;
+        return res;
     }
 
     private String rellenaCeros(String aRellenar, int numero) {

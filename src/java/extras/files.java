@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package extras;
 
-import controladores.controladorBD;
-import controladores.seguridad.logger;
+import controllers.controllerBD;
+import controllers.security.logger;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,14 +18,14 @@ import javax.servlet.http.Part;
 
 /**
  *
- * @author luis
+ * @author Luis Diego Jiménez Delgado 2018
  */
-public class archivos {
+public class files {
 
-    private final controladorBD BASE = new controladorBD();
+    private final controllerBD BASE = new controllerBD();
     public String contentType = "";
 
-    public archivos() {
+    public files() {
     }
 
     public String subir(String nombre, Part archivo, String direccion) {

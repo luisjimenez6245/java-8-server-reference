@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package extras;
 
-import controladores.seguridad.logger;
+import controllers.security.logger;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -24,13 +19,13 @@ import javax.mail.internet.MimeMultipart;
 
 /**
  *
- * @author luis
+ * @author Luis Diego Jiménez Delgado 2018
  */
-public class enviarEmail {
+public class emailSender {
 
-    private String cuerpo;
-    private String para;
-    private String asunto;
+    private String body;
+    private String to;
+    private String subject;
 
     private final String MAILER = "administrador@luisjimenez6245.mx";
     private final String PSW = "Siul6245.";
@@ -41,34 +36,34 @@ public class enviarEmail {
     private MimeMessage correo;
     private Transport t;
 
-    public enviarEmail(String cuerpo, String para, String asunto) {
-        this.cuerpo = cuerpo;
-        this.para = para;
-        this.asunto = asunto;
+    public emailSender(String body, String to, String subject) {
+        this.body = body;
+        this.to = to;
+        this.subject = subject;
     }
 
     public String getCuerpo() {
-        return cuerpo;
+        return body;
     }
 
-    public void setCuerpo(String cuerpo) {
-        this.cuerpo = cuerpo;
+    public void setCuerpo(String body) {
+        this.body = body;
     }
 
     public String getPara() {
-        return para;
+        return to;
     }
 
-    public void setPara(String para) {
-        this.para = para;
+    public void setPara(String to) {
+        this.to = to;
     }
 
     public String getAsunto() {
-        return asunto;
+        return subject;
     }
 
-    public void setAsunto(String asunto) {
-        this.asunto = asunto;
+    public void setAsunto(String subject) {
+        this.subject = subject;
     }
 
     private void inicializa() throws UnsupportedEncodingException, MessagingException {
@@ -90,9 +85,9 @@ public class enviarEmail {
     public boolean mandaEmail() {
         try {
             inicializa();
-            correo.addRecipient(Message.RecipientType.TO, new InternetAddress(this.para));
-            correo.setSubject(this.asunto);
-            correo.setContent(this.cuerpo, "text/html");
+            correo.addRecipient(Message.RecipientType.TO, new InternetAddress(this.to));
+            correo.setSubject(this.subject);
+            correo.setContent(this.body, "text/html");
             t.sendMessage(correo, correo.getAllRecipients());
             return cierraConexion();
         } catch (UnsupportedEncodingException | MessagingException ex) {
@@ -111,21 +106,21 @@ public class enviarEmail {
         }
     }
 
-    public boolean mandaEmail(String para, String asunto, String cuerpo) {
-        this.para = para;
-        this.asunto = asunto;
-        this.cuerpo = cuerpo;
+    public boolean mandaEmail(String to, String subject, String body) {
+        this.to = to;
+        this.subject = subject;
+        this.body = body;
         return mandaEmail();
     }
 
     public boolean conDocumento(String fileString) {
         try {
             inicializa();
-            correo.addRecipient(Message.RecipientType.TO, new InternetAddress(this.para));
-            correo.setSubject(this.asunto);
-            correo.setContent(this.cuerpo, "text/html");
+            correo.addRecipient(Message.RecipientType.TO, new InternetAddress(this.to));
+            correo.setSubject(this.subject);
+            correo.setContent(this.body, "text/html");
             BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setContent(this.cuerpo, "text/html");
+            messageBodyPart.setContent(this.body, "text/html");
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
             messageBodyPart = new MimeBodyPart();
@@ -142,10 +137,10 @@ public class enviarEmail {
         }
     }
 
-    public boolean conDocumento(String para, String asunto, String cuerpo, String fileString) {
-        this.para = para;
-        this.asunto = asunto;
-        this.cuerpo = cuerpo;
+    public boolean conDocumento(String to, String subject, String body, String fileString) {
+        this.to = to;
+        this.subject = subject;
+        this.body = body;
         return conDocumento(fileString);
     }
 

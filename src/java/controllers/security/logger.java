@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controladores.seguridad;
+package controllers.security;
 
-import controladores.controladorBD;
-import extras.enviarEmail;
+import controllers.controllerBD;
+import extras.emailSender;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +28,7 @@ public class logger {
         imprimeExcepcion();
     }
 
-    public void error(Exception ex, controladorBD base) {
+    public void error(Exception ex, controllerBD base) {
         this.ex = ex;
         try {
             base.cierraConexion();
@@ -52,7 +52,7 @@ public class logger {
     }
 
     private void guardaExcepcion() {
-        controladorBD base = new controladorBD();
+        controllerBD base = new controllerBD();
         try {
             base.conectar();
             ArrayList<String> param = new ArrayList<>();
@@ -83,7 +83,7 @@ public class logger {
 
         new Thread(new Runnable() {
             public void run() {
-                enviarEmail email = new enviarEmail(getExcepcion(), "luisjimenez6245@hotmail.com", "Error");
+                emailSender email = new emailSender(getExcepcion(), "luisjimenez6245@hotmail.com", "Error");
                 if (!email.mandaEmail()) {
                     Logger.getLogger(ex.getClass().getName()).log(Level.SEVERE, null, ex);
                 }

@@ -5,7 +5,7 @@
  */
 package servlets;
 
-import extras.archivos;
+import extras.files;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -18,13 +18,13 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author luis
  */
-@WebServlet(name = "archivo", urlPatterns = {"/archivo/*"})
-public class archivo extends controladores.controladorServlet {
+@WebServlet(name = "file", urlPatterns = {"/file/*"})
+public class file extends controllers.controllerServlet {
 
     private String contentType;
     private byte[] archivo;
 
-    public archivo() {
+    public file() {
         this.archivo = null;
     }
 
@@ -33,7 +33,7 @@ public class archivo extends controladores.controladorServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType((contentType == null || contentType.equals("")) ? "application/json;charset=UTF-8" : contentType);
         resStatus = resStatus != 0 ? resStatus : archivo == null ? 404 : 0;
-        if (respuesta.equals("")) {
+        if (result.equals("")) {
             if (archivo != null && resStatus == 0) {
                 OutputStream os = response.getOutputStream();
                 os.write(archivo);
@@ -44,8 +44,8 @@ public class archivo extends controladores.controladorServlet {
             }
         } else {
             PrintWriter out = response.getWriter();
-            if (!respuesta.equals("null")) {
-                out.print(respuesta);
+            if (!result.equals("null")) {
+                out.print(result);
             } else {
                 response.sendError(400);
             }
@@ -55,9 +55,9 @@ public class archivo extends controladores.controladorServlet {
 
     @Override
     protected void get(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        extras.archivos arch = new extras.archivos();
-        if (!pagina.equals("")) {
-            archivo = arch.verDeBase(pagina);
+        extras.files arch = new extras.files();
+        if (!page.equals("")) {
+            archivo = arch.verDeBase(page);
             contentType = arch.contentType;
         } else {
             if (request.getParameter("id") != null) {
@@ -70,11 +70,11 @@ public class archivo extends controladores.controladorServlet {
     @Override
     protected void post(HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (request.getPart("archivo") != null) {
-            archivos control = new archivos();
-            respuesta = control.subir(request.getParameter("nombre") == null ? "" : request.getParameter("nombre"), request.getPart("archivo"), request.getRealPath(pagina) + "/carpeta/");
+            files control = new files();
+            result = control.subir(request.getParameter("nombre") == null ? "" : request.getParameter("nombre"), request.getPart("archivo"), request.getRealPath(page) + "/carpeta/");
 
         } else {
-            respuesta = "no hay archivo";
+            result = "no hay archivo";
         }
     }
 

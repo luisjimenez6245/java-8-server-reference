@@ -3,12 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package kerberos;
+package controllers;
+
+import com.google.gson.Gson;
+import controllers.security.logger;
 
 /**
  *
  * @author luis
  */
-class Gson {
+public abstract class iController {
     
+    
+    public Gson JSON = new Gson();
+    protected final logger ERRORES = new logger();
+
 }
