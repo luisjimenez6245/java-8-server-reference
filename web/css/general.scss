@@ -1,0 +1,607 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+
+@import "./codemirror.css";
+@import "./normalize.css";
+
+
+@mixin transitions($transition) {
+  -webkit-transition: $transition; /* Safari */
+  transition: $transition;
+}
+
+@function bottom-shadow($depth) {
+  $primary-offset: nth(1.5 3 6 10 15, $depth) * 1px;
+  $blur: nth(1 3 3 5 6, $depth) * 4px;
+  $color: rgba(black, nth(0.24 0.23 0.23 0.22 0.22, $depth));
+
+  @return 0 $primary-offset $blur $color;
+}
+
+@mixin card($depth) {
+  @if $depth < 1 {
+    box-shadow: none;
+  } @else if $depth > 5 {
+    @warn "Invalid $depth `#{$depth}` for mixin `card`.";
+  } @else {
+    box-shadow: bottom-shadow($depth);
+  }
+}
+
+@mixin disable-selection {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@mixin div-properties($ancho, $alto, $color, $display) {
+  width: $ancho;
+  height: $alto;
+  background-color: $color;
+  display: $display;
+}
+
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(19px, 0);
+  }
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  margin: 0;
+  background-color: rgba(248, 248, 248, 1);
+}
+html {
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+.button{
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center !important;
+  background-color:  rgba(36, 41, 46, 1);
+  border: none;
+  color: white;
+  border-radius: 2px;
+  text-decoration: none;
+  border: none;
+  text-transform: capitalize;
+  font-size: 1rem;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 5px;
+  margin-right: 5px;
+  .add{
+      &:before{
+          margin-right: .3rem;
+          content: '+';
+      }
+
+  }
+  label{
+      font-size: 1.1rem !important;
+      cursor: pointer ;
+      text-align: center !important;
+      text-transform: uppercase;
+  }
+  &-clear, &-full{
+      float:right;
+  }
+  &-clear, &-middle-clear{
+      vertical-align: top;
+      font-family: white;
+      color: rgba(36, 41, 46, 1);
+      padding: .8rem;
+  }
+  &-full, &-middle{
+      font-size: .8rem;
+      padding: 1rem;
+      background-color:  rgba(36, 41, 46, .1);
+      color:  rgba(36, 41, 46, 1);
+      font-weight: 500;
+  }
+  &-middle{
+      margin: auto;
+  }
+  &-middle-clear{
+      margin: auto;
+  }
+  &:hover, &:focus{
+      opacity: .7;
+  }
+}
+
+.container-items{
+  width: 90%;
+  margin-left: 2.5%;
+  padding-left: 2.5%;
+  padding-right: 2.5%;
+  margin-top: 1rem;
+  .container-content{
+    padding-top: .3rem;
+    @include disable-selection();
+  }
+  .item{
+    display: inline-block;
+    background-color: rgba(36, 41, 46, .9);
+    padding: .3rem;
+    margin-bottom: 5px;
+    font-size: .8rem;
+    color:white;
+    vertical-align: middle;
+    border-radius: 2px;
+    @include disable-selection();
+    &:hover{
+      opacity: .7;
+      cursor: pointer;
+    }
+  }
+  .icon{
+
+  }
+}
+
+.left-container{
+  z-index: 100;
+  position: fixed;
+  height: 100vh;
+  width: 350px;
+  top: 0px;
+  background-color: rgba(36, 41, 46, 1);
+  @include card(5);
+  .close{
+    float: right;
+    margin-right: 10px;
+    margin-top: 20px;
+    color: white;
+    font-size: 1.2rem;      
+    opacity: .5;
+    &:hover{
+      opacity: 1;
+    }
+  }
+  .container{
+    counter-reset: section;
+    width: 90%;
+    margin-left: 5%;
+    min-width: 2rem;
+    padding-top: 45px;
+    color: white;
+    .child{
+      &::before{
+        counter-increment: section;
+        content:counter(section) ;      
+      }
+    }
+  }
+
+}
+
+.container-hidden {
+  @include transitions(0.3s);
+  width: 0px !important;
+  height: 0px !important;
+  background-color: #ffffff !important;
+  display: none !important;
+}
+
+.container-loading {
+  @include div-properties(100vw, 100vh, white, flex);
+  position: fixed;
+  z-index: 10000;
+  vertical-align: middle;
+  align-items: center;
+  top: 0px;
+  left: 0px;
+  @include transitions(0.1s);
+  transition-delay: 2s;
+  @include disable-selection;
+  .lds-ellipsis {
+    @include div-properties(64px, 64px, null, inline-block);
+    position: relative;
+    margin: auto;
+    vertical-align: middle;
+    div {
+      position: absolute;
+      top: 27px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: rgba(36, 41, 46, 1);
+      animation-timing-function: cubic-bezier(0, 1, 1, 0);
+      &:nth-child(1) {
+        left: 6px;
+        animation: lds-ellipsis1 0.6s infinite;
+      }
+      &:nth-child(2) {
+        left: 6px;
+        animation: lds-ellipsis2 0.6s infinite;
+      }
+      &:nth-child(3) {
+        left: 26px;
+        animation:  lds-ellipsis3 0.6s infinite;
+      }
+      &:nth-child(4) {
+        left: 45px;
+        animation: lds-ellipsis3 0.6s infinite;
+      }
+    }
+  }
+}
+
+.form {
+  margin-left: 10px;
+  display: inline-block;
+  .button {
+    background-color: rgba(42, 139, 251, 1);
+    color: white;
+    border-radius: 2px;
+    text-decoration: none;
+    border: none;
+    text-transform: capitalize;
+    font-size: 1rem;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 5px;
+    margin-right: 5px;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+.footer{
+  margin-top: 3rem;
+  width: 90%;
+  text-align: center;
+  margin-left: 5%;
+  font-size: .8rem;
+  color: rgba(100,100,100,1);
+}
+
+.main-body{
+  width: 100%;
+  min-width: 80%;
+  .container{
+    background-color: white;
+    margin-top: 1.2rem;
+    width: 80%;
+    height: auto;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+    margin-left: 7.5%;
+    @include card(1);
+    .title{
+      width: 100%;
+      text-align: center;
+      color: rgba(50, 50, 50, 1);
+      font-size: 1.8rem;
+      padding-bottom: 1.2rem;
+    }
+    .subtitle{
+      width: 100%;
+      text-align: justify;
+      font-size: 1rem;
+      font-weight: 200;
+      color: rgba(60, 60, 60, 1);
+    }
+  }
+}
+.nav {
+  width: 100vw;
+  background-color: rgba(36, 41, 46, 1);
+  color: white;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  div{
+    @include disable-selection;
+  }
+  .container {
+    width: 95%;
+    margin-left: 2.5% !important;
+    display: table;
+  }
+  .panel {
+    width: 1.8rem;
+    opacity: 0.5;
+    div {
+      background-color: white;
+      width: 100%;
+      height: 0.055rem;
+      margin-bottom: 5px;
+      text-decoration: none;
+    }
+    &:hover{
+      opacity: 1;
+    }
+  }
+  .logo {
+    font-weight: 900;
+    float: left;
+  }
+  .urls {
+    float: right;
+    .active {
+      border-bottom: 2px solid white;
+      opacity: 1;
+      font-weight: 600;
+    }
+    div {
+      text-transform: uppercase;
+      height: 1rem;
+      width: auto;
+      display: inline-block;
+      font-weight: 200;
+      text-align: center;
+      margin-left: 5px;
+      line-height: 0.8rem;
+      border-bottom: 2px solid rgba(0, 0, 0, 0);
+      opacity: 0.6;
+      font-size: 0.8rem;
+      &:hover {
+        font-weight: 600;
+        opacity: 0.8;
+        border-bottom: 2px solid white;
+      }
+    }
+  }
+}
+
+.main {
+  width: 100%;
+  display: table;
+  .text-area{
+    width: 95%;
+    margin-top: 1rem;
+    border: 1px solid rgba(240,240, 240, 1);
+  }
+  textarea{
+    text-align: justify;
+    resize: none;
+    width: 100%;
+    padding-top: 5px;
+    height: 400px;
+    outline: none;
+    border: 1px solid rgba(230, 230, 230, 1);
+  }
+  .left & .right {
+    div {
+      padding-top: 50px;
+      width: 90%;
+      margin-left: 5% !important;
+    }
+  }
+  .left {
+    float: left;
+    width: 60%;
+  }
+  .right {
+    float: right;
+    width: 40%;
+  }
+
+  .code {
+    margin-top: 10px;
+    margin-left: 5% !important;
+    width: 90%;
+    .title {
+      border-radius: 5px 5px 0px 0px;
+      border: 1px solid rgba(220, 220, 220, 1);
+      border-bottom: 0px solid rgba(220, 220, 220, 1);
+      padding-top: 10px;
+      padding-bottom: 10px;
+      background-color: rgba(246, 248, 250, 1);
+      label {
+        margin-left: 5%;
+      }
+    }
+    .container {
+      border-radius: 0px 0px 5px 5px;
+      max-height: 80vh;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      border: 1px solid rgba(220, 220, 220, 1);
+    }
+    pre {
+      margin-left: 5% !important;
+      width: 90%;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.container-modal {
+  @include div-properties(100vw, 100vh, rgba(40, 40, 40, 0.6), flex);
+  position: fixed;
+  z-index:200;
+  vertical-align: middle;
+  align-items: center;
+  top:0px;
+  left:0px;
+  @include disable-selection;
+  .blur {
+      top:0px;
+      left:0px;
+      @include div-properties(100%, 100%, rgba(30, 30, 30, 0.7), flex);
+      z-index: 0;
+      position: absolute;
+  }
+  .container{
+      @include div-properties(auto, auto, null, inline-block);
+      &-message, &-form{
+          position: relative;
+          margin: auto;
+          vertical-align: middle;
+          @media only screen and (min-width: 20px) {
+              @include div-properties(90%, auto, white, inline-block);
+          }
+          .header, .footer{
+              span{
+                  position: absolute;
+                  float: right;
+                  @include div-properties(1.2rem, 1.2rem, null, block);
+                  opacity:.7;
+                  font-size: 1.2rem;
+                  &:hover{
+                      opacity: 1;
+                  }
+                  cursor: pointer;
+              }
+          }
+          .header{
+              @include div-properties(100%, auto, #3780af, inline-block);
+              padding-top: 1rem !important;
+              div{
+                  margin-left: 5%;
+                  text-align: center;
+                  color: white;
+                  padding-bottom: .5rem;
+                  @include div-properties(90%, auto, #3780af, inline-block);
+              }
+              .title{
+                  padding-top: 1rem !important;
+                  font-size: 1.5rem;
+                  line-height: 1.2rem;
+                  font-weight: 500;
+                  text-transform: uppercase;
+              }
+              span{
+                  color: white;
+                  right: .5rem;
+                  top: .5rem;
+              }
+
+          }
+          .content{
+              @include div-properties(100%, auto, null, inline-block);
+              margin-top: .2rem;
+              .container-full{
+                  @include div-properties(90%, auto, null, inline-block);
+                  margin: 0px;
+                  margin-left: 5%;
+                  margin-top: .2rem;
+                  font-size: 1rem;
+                  label{
+                      font-size: 1rem;
+                  }
+                  select{
+                      font-size: .9rem;
+                  }
+                  input[type="text"],
+                  input[type="email"],
+                  input[type="password"], select {
+                      float:none;
+                      @media only screen and (min-width: 0) {
+                          @include div-properties(100%, 1.5rem, rgba(0,0,0,0), inline-block);
+                      }
+                      @media only screen and (min-width: 720) {
+                          @include div-properties(100%, 1.5rem, rgba(0,0,0,0), inline-block);
+                      }
+                  }
+                  .title{
+                      font-size: 1.05rem;
+                      font-weight: 400;
+                      text-align: left;
+                      padding: 0px;
+                      @include div-properties(100%, 1.5rem, rgba(0,0,0,0), inline-block);
+                      margin: 0px;
+                  }
+                  .mini-title{
+                      text-transform: uppercase;
+                      padding-top: .5rem;
+                      font-size: 1.05rem;
+                      padding-bottom: .5rem;
+                      span{
+                          font-size: 0.95rem;
+                      }
+                  }
+                  .word{
+                      position: relative;
+                      @include div-properties(95%, 7rem, null, inline-block);
+                      overflow: hidden;
+                      overflow-y: auto;
+                      font-size: .95rem;
+                      opacity: .7;
+                      &:hover{
+                          opacity: 1;
+                      }
+                  }
+              }
+          }
+          .footer{
+              max-height:  3rem !important;
+              padding:  0px !important;
+              margin-top: 0px !important;
+              @include div-properties(100%, auto, white, inline-block);
+              span{
+                  color: gray;
+                  right: .5rem;
+                  bottom: .5rem;
+              }
+          }
+      }
+      &-form{
+          @media only screen and (min-width: 768px) {
+              @include div-properties(25%, auto, white, inline-block);
+              min-width: 500px !important;
+          }
+      }
+      &-message{
+          @media only screen and (min-width: 768px) {
+              @include div-properties(40%, auto, white, inline-block);
+              min-width: 650px !important;
+          }
+      }
+  }
+  div {
+      .title {
+          @include div-properties(90%, auto, null, inline-block);
+          margin-left: 5%;
+          font-weight: 700;
+          text-align: center;
+          margin-left: 5%;
+          font-weight: 700;
+          font-size: 1.35rem;
+          padding-top: 0.5rem;
+          padding-bottom: 0.8rem;
+      }
+      .container {
+          @include div-properties(90%, auto, null, inline-block);
+          position: relative;
+          font-size: 1.35rem;
+          margin-left: 5%;
+          .button-middle{
+              background-color: #3780af;
+          }
+      }
+  }
+}

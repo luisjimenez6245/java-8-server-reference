@@ -1,0 +1,64 @@
+$background-color: #f3f3f3;
+$font-color: #000000;
+$font-family: 'Open Sans', sans-serif;
+
+
+$bk-error-color: rgba(0,0 ,0,0);
+$bk-correct-color: rgba(0,0 ,0,0);
+$bk-message-color: rgba(0,0 ,0,0);
+
+
+$nav-background-color: #3780af;
+$nav-font-color: white;
+
+
+$border-shadow-color : #222222;
+
+
+$content-header-text-color: #3780af;
+$content-label-text-color: black;
+
+
+$button-background-color: #4ca981;
+$button-font-color: white;
+$button-middle-font-color: #3780af;
+$button-font-family: 'Open Sans', sans-serif;
+
+$button-middle-font-family: 'Open Sans', sans-serif;
+
+$content-title-font-family : 'Titillium Web', sans-serif;
+
+$mini-head-background-color: white;
+$mini-head-font-color: rgba(40,40,40);
+
+$popup-title-font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+$popup-blur-background-color:rgba(40, 40, 40, 0.6);
+$popup-error-bk-color: rgba(0,0 ,0,0);
+$popup-correct-bk-color: rgba(0,0 ,0,0);
+$popup-message-bk-color: rgba(0,0 ,0,0);
+
+
+@keyframes lds-ellipsis1 {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+@keyframes lds-ellipsis3 {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+@keyframes lds-ellipsis2 {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(19px, 0);
+    }
+}
