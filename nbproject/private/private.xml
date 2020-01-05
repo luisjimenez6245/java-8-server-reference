@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/luis/Documents/GitHub/java-8-server-reference/src/java/controllers/utils/iViewController.java</file>
+            <file>file:/Users/luis/Documents/GitHub/java-8-server-reference/src/java/controllers/IndexController.java</file>
+            <file>file:/Users/luis/Documents/GitHub/java-8-server-reference/src/java/sources/requests/SourceRequests.java</file>
+            <file>file:/Users/luis/Documents/GitHub/java-8-server-reference/src/java/sources/mysql/repositoryMysql.java</file>
+            <file>file:/Users/luis/Documents/GitHub/java-8-server-reference/src/java/sources/mysql/MapperMysql.java</file>
+            <file>file:/Users/luis/Documents/GitHub/java-8-server-reference/src/java/app.properties</file>
+            <file>file:/Users/luis/Documents/GitHub/java-8-server-reference/src/java/routes/utils/Factory.java</file>
+            <file>file:/Users/luis/Documents/GitHub/java-8-server-reference/src/java/sources/requests/RepositoryRequests.java</file>
+            <file>file:/Users/luis/Documents/GitHub/java-8-server-reference/src/java/presenters/IndexPresenter.java</file>
+        </group>
     </open-files>
 </project-private>
